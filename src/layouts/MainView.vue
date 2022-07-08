@@ -1,7 +1,7 @@
 <template>
   <main>
     <div class="container py-4">
-      <h2>hello world</h2>
+      <RouterView></RouterView>
     </div>
   </main>
 </template>
