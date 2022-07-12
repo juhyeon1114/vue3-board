@@ -17,7 +17,13 @@ const routes = [
   { name: 'PostList', path: '/posts', component: PostListView },
   { name: 'PostCreate', path: '/posts/create', component: PostCreateView },
   { name: 'PostEdit', path: '/posts/:id/edit', component: PostEditView },
-  { name: 'PostDetail', path: '/posts/:id/detail', component: PostDetailView },
+  {
+    name: 'PostDetail',
+    path: '/posts/:id/detail',
+    component: PostDetailView,
+    // props: true,
+    props: route => ({ id: Number(route.params.id) }),
+  },
   {
     name: 'NestedView',
     path: '/nested',

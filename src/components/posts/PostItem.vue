@@ -1,17 +1,16 @@
 <template>
-  <div class="card">
-    <div class="card-header">Featured</div>
-    <div class="card-body">
-      <h5 class="card-title">{{ title }}</h5>
-      <p class="card-text">
-        {{ contents }}
-      </p>
-      <small href="#">{{ createdAt }}</small>
-    </div>
-  </div>
+  <AppCard>
+    <h5 class="card-title">{{ title }}</h5>
+    <p class="card-text">
+      {{ contents }}
+    </p>
+    <small href="#">{{ createdAt }}</small>
+  </AppCard>
 </template>
 
 <script setup>
+import AppCard from '@/components/AppCard.vue';
+
 defineProps({
   title: { type: String, required: true },
   contents: { type: String, required: true },
