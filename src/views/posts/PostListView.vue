@@ -32,7 +32,9 @@ import { useRouter } from 'vue-router';
 const router = useRouter();
 const posts = ref([]);
 
-const fetchPosts = () => (posts.value = getPosts());
+const fetchPosts = async () => {
+  posts.value = await getPosts();
+};
 fetchPosts();
 
 const onClickPostCard = post => {

@@ -28,7 +28,7 @@
 </template>
 
 <script setup>
-import { getPostById } from '@/api/posts';
+import { deletePost, getPostById } from '@/api/posts';
 import { ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
@@ -52,9 +52,14 @@ const post = ref({});
  * 단) 객체 전체 할당 불가능
  */
 
-const fetchPost = () => {
-  const data = getPostById(id);
-  post.value = { ...data };
+const fetchPost = async () => {
+  post.value = {};
+  try {
+    const data = await getPostById(id);
+    post.value = { ...data };
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 const goToList = () => {
@@ -65,8 +70,14 @@ const goToEdit = () => {
   router.push({ name: 'PostEdit', params: { id: route.params.id } });
 };
 
-const onClickDelete = () => {
-  console.log('hi');
+const onClickDelete = async () => {
+  try {
+    const res = await deletePost(id);
+    console.log(res);
+    router.push({ name: 'PostList' });
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 fetchPost();

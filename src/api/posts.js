@@ -1,14 +1,33 @@
-export const posts = [
-  { id: 1, title: '제목 예시', contents: '내용 예시', createdAt: '2020-01-01' },
-  { id: 2, title: '제목 예시', contents: '내용 예시', createdAt: '2020-01-01' },
-  { id: 3, title: '제목 예시', contents: '내용 예시', createdAt: '2020-01-01' },
-  { id: 4, title: '제목 예시', contents: '내용 예시', createdAt: '2020-01-01' },
-];
+import axios from 'axios';
 
-export const getPosts = () => {
-  return posts;
+const Axios = axios.create({ baseURL: 'http://localhost:5000' });
+
+export const getPosts = async () => {
+  try {
+    return (await Axios.get('/posts')).data;
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
 };
 
-export const getPostById = id => {
-  return posts.find(v => v.id === Number(id));
+export const getPostById = async id => {
+  try {
+    return (await Axios.get(`/posts/${id}`)).data;
+  } catch (error) {
+    console.error(error);
+    return {};
+  }
+};
+
+export const createPost = async data => {
+  return Axios.post('/posts', data);
+};
+
+export const updatePost = async (id, data) => {
+  return Axios.put(`/posts/${id}`, data);
+};
+
+export const deletePost = async id => {
+  return Axios.delete(`/posts/${id}`);
 };

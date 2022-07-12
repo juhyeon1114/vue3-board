@@ -6,7 +6,12 @@
     <form @submit.prevent="onSubmitForm">
       <div class="mb-3">
         <label for="title" class="form-label">제목</label>
-        <input type="text" class="form-control" id="title" v-model="title" />
+        <input
+          type="text"
+          class="form-control"
+          id="title"
+          v-model="post.title"
+        />
       </div>
       <div class="mb-3">
         <label for="contents" class="form-label">내용</label>
@@ -14,7 +19,7 @@
           class="form-control"
           id="contents"
           rows="3"
-          v-model="contents"
+          v-model="post.contents"
         ></textarea>
       </div>
 
@@ -33,21 +38,39 @@
 </template>
 
 <script setup>
-import { reactive } from 'vue';
+import { getPostById, updatePost } from '@/api/posts';
+import { ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
-const title = reactive();
-const contents = reactive();
 const route = useRoute();
 const router = useRouter();
+const post = ref({});
+const id = route.params.id;
+
+const fetchPost = async () => {
+  post.value = {};
+  try {
+    const data = await getPostById(id);
+    post.value = { ...data };
+  } catch (error) {
+    console.error(error);
+  }
+};
 
 const goToDetail = () => {
   router.push({ name: 'PostDetail', params: { id: route.params.id } });
 };
 
-const onSubmitForm = () => {
-  console.log('submit', title, contents);
+const onSubmitForm = async () => {
+  try {
+    await updatePost(id, post.value);
+    router.push({ name: 'PostDetail', params: { id } });
+  } catch (error) {
+    console.error(error);
+  }
 };
+
+fetchPost();
 </script>
 
 <style lang="scss" scoped></style>
