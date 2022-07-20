@@ -2,9 +2,14 @@ import axios from 'axios';
 
 const Axios = axios.create({ baseURL: 'http://localhost:5000' });
 
-export const getPosts = async () => {
+export const getPosts = async params => {
   try {
-    return (await Axios.get('/posts')).data;
+    const res = await Axios({
+      method: 'GET',
+      url: '/posts',
+      params,
+    });
+    return res;
   } catch (error) {
     console.error(error);
     return [];

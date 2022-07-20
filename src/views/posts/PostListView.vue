@@ -13,29 +13,49 @@
       </div>
     </div>
 
-    <hr class="my-4" />
+    <PostPagination
+      :total="total"
+      :perPage="LIMIT"
+      :page="params._page"
+      @change="fetchPosts"
+    />
 
-    <AppCard>
+    <hr class="my-5" />
+
+    <!-- <AppCard>
       <PostDetailView :id="1"></PostDetailView>
-    </AppCard>
+    </AppCard> -->
   </div>
 </template>
 
 <script setup>
-import PostDetailView from '@/views/posts/PostDetailView.vue';
+// import PostDetailView from '@/views/posts/PostDetailView.vue';
+// import AppCard from '@/components/AppCard.vue';
+import PostPagination from '@/components/PostPagination.vue';
 import PostItem from '@/components/posts/PostItem.vue';
-import AppCard from '@/components/AppCard.vue';
 import { getPosts } from '@/api/posts';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
+const LIMIT = 6;
+const total = ref([]);
 const posts = ref([]);
+const params = ref({
+  _sort: 'createdAt',
+  _order: 'desc',
+  _limit: LIMIT,
+  _page: 0,
+});
 
-const fetchPosts = async () => {
-  posts.value = await getPosts();
+const fetchPosts = async (newPage = 0) => {
+  params.value._page = newPage;
+  const { data, headers } = await getPosts(params.value);
+  total.value = Number(headers['x-total-count'] || 0);
+  posts.value = data || [];
 };
 fetchPosts();
+// watchEffect(fetchPosts);
 
 const onClickPostCard = post => {
   router.push({ name: 'PostDetail', params: { id: post.id } });
