@@ -1,7 +1,26 @@
 <template>
   <div>
     <h2>게시글 목록</h2>
+
     <hr class="my-4" />
+
+    <form @submit.prevent>
+      <div class="row g-3">
+        <div class="col">
+          <input type="text" class="form-control" v-model="params.title_like" />
+        </div>
+        <div class="col">
+          <select v-model="params._limit" class="form-select">
+            <option value="3">3개씩</option>
+            <option value="6">6개씩</option>
+            <option value="9">9개씩</option>
+          </select>
+        </div>
+      </div>
+    </form>
+
+    <hr class="my-4" />
+
     <div class="row g-3">
       <div class="col-4" v-for="post in posts" :key="post.id">
         <PostItem
@@ -15,9 +34,9 @@
 
     <PostPagination
       :total="total"
-      :perPage="LIMIT"
+      :perPage="params._limit"
       :page="params._page"
-      @change="fetchPosts"
+      @change="v => (params._page = v)"
     />
 
     <hr class="my-5" />
@@ -34,28 +53,27 @@
 import PostPagination from '@/components/PostPagination.vue';
 import PostItem from '@/components/posts/PostItem.vue';
 import { getPosts } from '@/api/posts';
-import { ref } from 'vue';
+import { ref, watchEffect } from 'vue';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
-const LIMIT = 6;
 const total = ref([]);
 const posts = ref([]);
 const params = ref({
   _sort: 'createdAt',
   _order: 'desc',
-  _limit: LIMIT,
+  _limit: 3,
   _page: 0,
+  title_like: '',
 });
 
-const fetchPosts = async (newPage = 0) => {
-  params.value._page = newPage;
+const fetchPosts = async () => {
   const { data, headers } = await getPosts(params.value);
   total.value = Number(headers['x-total-count'] || 0);
   posts.value = data || [];
 };
-fetchPosts();
-// watchEffect(fetchPosts);
+// fetchPosts();
+watchEffect(fetchPosts);
 
 const onClickPostCard = post => {
   router.push({ name: 'PostDetail', params: { id: post.id } });
