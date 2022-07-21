@@ -10,7 +10,7 @@
         v-for="len in pages"
         :key="`page-${len}`"
         class="page-item"
-        :class="[page === len - 1 ? 'active' : '']"
+        :class="[page === len ? 'active' : '']"
         @click="onClickPage(len)"
       >
         <a class="page-link">{{ len }}</a>
@@ -39,10 +39,15 @@ const pages = computed(() => {
 });
 
 const onClickPage = page => {
-  const newPage = page - 1;
+  const newPage = page;
   if (props.page === newPage) return;
   emit('change', newPage);
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style scoped>
+.page-item {
+  cursor: pointer;
+  user-select: none;
+}
+</style>

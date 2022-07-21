@@ -39,7 +39,7 @@
       @change="v => (params._page = v)"
     />
 
-    <hr class="my-5" />
+    <!-- <hr class="my-5" /> -->
 
     <!-- <AppCard>
       <PostDetailView :id="1"></PostDetailView>
@@ -63,7 +63,7 @@ const params = ref({
   _sort: 'createdAt',
   _order: 'desc',
   _limit: 3,
-  _page: 0,
+  _page: 1,
   title_like: '',
 });
 
@@ -73,6 +73,11 @@ const fetchPosts = async () => {
   posts.value = data || [];
 };
 // fetchPosts();
+
+/**
+ * watchEffect(func)
+ * @description func안에서 사용되는 반응형 값들이 변경되면 자동적으로 func를 재실행
+ */
 watchEffect(fetchPosts);
 
 const onClickPostCard = post => {

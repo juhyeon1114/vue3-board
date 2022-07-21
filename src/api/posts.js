@@ -1,12 +1,10 @@
-import axios from 'axios';
-
-const Axios = axios.create({ baseURL: 'http://localhost:5000' });
+import { postsApi } from '.';
 
 export const getPosts = async params => {
   try {
-    const res = await Axios({
+    const res = await postsApi({
       method: 'GET',
-      url: '/posts',
+      url: '/',
       params,
     });
     return res;
@@ -18,7 +16,7 @@ export const getPosts = async params => {
 
 export const getPostById = async id => {
   try {
-    return (await Axios.get(`/posts/${id}`)).data;
+    return (await postsApi.get(`/${id}`)).data;
   } catch (error) {
     console.error(error);
     return {};
@@ -26,13 +24,13 @@ export const getPostById = async id => {
 };
 
 export const createPost = async data => {
-  return Axios.post('/posts', data);
+  return postsApi.post('/', data);
 };
 
 export const updatePost = async (id, data) => {
-  return Axios.put(`/posts/${id}`, data);
+  return postsApi.put(`/${id}`, data);
 };
 
 export const deletePost = async id => {
-  return Axios.delete(`/posts/${id}`);
+  return postsApi.delete(`/${id}`);
 };

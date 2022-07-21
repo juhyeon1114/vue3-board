@@ -7,3 +7,12 @@ import router from '@/router';
 createApp(App).use(router).mount('#app');
 
 import 'bootstrap/dist/js/bootstrap.js';
+
+export const app_env = import.meta.env;
+
+// console.log(app_env.MODE);
+// console.log(app_env.BASE_URL);
+// console.log(app_env.PROD);
+// console.log(app_env.DEV);
+// console.log(app_env.VITE_APP_API_URL);
+// console.log(app_env);
