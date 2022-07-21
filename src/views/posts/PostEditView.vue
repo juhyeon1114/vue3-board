@@ -20,24 +20,26 @@
       </template>
     </PostForm>
 
-    <AppAlert :show="showAlert" :message="alertMessage" :type="alertColor" />
+    <!-- <AppAlert :show="showAlert" :message="alertMessage" :type="alertColor" /> -->
+    <AppAlerts :items="alerts" />
   </div>
 </template>
 
 <script setup>
 import PostForm from '@/components/posts/PostForm.vue';
 import { getPostById, updatePost } from '@/api/posts';
-import { ref } from 'vue';
+import { reactive, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import AppAlert from '@/components/AppAlert.vue';
+import AppAlerts from '@/components/AppAlerts.vue';
 
 const route = useRoute();
 const router = useRouter();
 const post = ref({});
 const id = route.params.id;
-const showAlert = ref(false);
-const alertMessage = ref('');
-const alertColor = ref('');
+// const showAlert = ref(false);
+// const alertMessage = ref('');
+// const alertColor = ref('');
+const alerts = reactive([]);
 
 const fetchPost = async () => {
   post.value = {};
@@ -56,24 +58,26 @@ const goToDetail = () => {
 const onSubmitForm = async () => {
   try {
     await updatePost(id, post.value);
-    turnOnAlert('수정 완료', 'success');
+    turnOnAlert(`수정 완료 ${new Date().valueOf()}`, 'success');
   } catch (error) {
     console.error(error);
     turnOnAlert('오류');
   }
 };
 
-// const goBackToDetail = () => {
-//   router.push({ name: 'PostDetail', params: { id } });
+// const turnOnAlert = (message = '', color = 'error') => {
+//   showAlert.value = true;
+//   alertMessage.value = message;
+//   alertColor.value = color;
+//   setTimeout(() => {
+//     showAlert.value = false;
+//   }, 2000);
 // };
 
-const turnOnAlert = (msg = '', color = 'error') => {
-  showAlert.value = true;
-  alertMessage.value = msg;
-  alertColor.value = color;
+const turnOnAlert = (message = '', type = 'error') => {
+  alerts.push({ message, type });
   setTimeout(() => {
-    showAlert.value = false;
-    // goBackToDetail();
+    alerts.shift(); // 맨 첫번째 요소 제거
   }, 2000);
 };
 
