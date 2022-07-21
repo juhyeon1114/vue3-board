@@ -1,12 +1,14 @@
 <template>
-  <div
-    v-if="show"
-    class="app-alert alert alert-primary"
-    :class="classes"
-    role="alert"
-  >
-    {{ message }}
-  </div>
+  <transition>
+    <div
+      v-if="show"
+      class="app-alert alert alert-primary"
+      :class="classes"
+      role="alert"
+    >
+      {{ message }}
+    </div>
+  </transition>
 </template>
 
 <script setup>
@@ -32,5 +34,21 @@ const classes = computed(() => {
   position: fixed;
   top: 10px;
   right: 10px;
+}
+
+/** Built in transition classes */
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+  transform: translateY(-50px);
+}
+.v-enter-active,
+.v-leave-active {
+  transition: all 0.5s ease;
+}
+.v-enter-to,
+.v-leave-from {
+  opacity: 1;
+  transform: translateY(0px);
 }
 </style>

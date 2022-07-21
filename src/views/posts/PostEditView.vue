@@ -63,9 +63,9 @@ const onSubmitForm = async () => {
   }
 };
 
-const goBackToDetail = () => {
-  router.push({ name: 'PostDetail', params: { id } });
-};
+// const goBackToDetail = () => {
+//   router.push({ name: 'PostDetail', params: { id } });
+// };
 
 const turnOnAlert = (msg = '', color = 'error') => {
   showAlert.value = true;
@@ -73,7 +73,7 @@ const turnOnAlert = (msg = '', color = 'error') => {
   alertColor.value = color;
   setTimeout(() => {
     showAlert.value = false;
-    goBackToDetail();
+    // goBackToDetail();
   }, 2000);
 };
 
