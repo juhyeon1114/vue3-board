@@ -19,6 +19,8 @@
         <button type="submit" class="btn btn-primary">저장</button>
       </template>
     </PostForm>
+
+    <AppAlert :show="showAlert" :message="alertMessage" :type="alertColor" />
   </div>
 </template>
 
@@ -27,11 +29,15 @@ import PostForm from '@/components/posts/PostForm.vue';
 import { getPostById, updatePost } from '@/api/posts';
 import { ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import AppAlert from '@/components/AppAlert.vue';
 
 const route = useRoute();
 const router = useRouter();
 const post = ref({});
 const id = route.params.id;
+const showAlert = ref(false);
+const alertMessage = ref('');
+const alertColor = ref('');
 
 const fetchPost = async () => {
   post.value = {};
@@ -50,10 +56,25 @@ const goToDetail = () => {
 const onSubmitForm = async () => {
   try {
     await updatePost(id, post.value);
-    router.push({ name: 'PostDetail', params: { id } });
+    turnOnAlert('수정 완료', 'success');
   } catch (error) {
     console.error(error);
+    turnOnAlert('오류');
   }
+};
+
+const goBackToDetail = () => {
+  router.push({ name: 'PostDetail', params: { id } });
+};
+
+const turnOnAlert = (msg = '', color = 'error') => {
+  showAlert.value = true;
+  alertMessage.value = msg;
+  alertColor.value = color;
+  setTimeout(() => {
+    showAlert.value = false;
+    goBackToDetail();
+  }, 2000);
 };
 
 fetchPost();
