@@ -1,6 +1,8 @@
 <template>
   <MainHeader></MainHeader>
   <MainView></MainView>
+
+  <div id="postModal"></div>
 </template>
 
 <script setup>

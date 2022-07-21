@@ -5,6 +5,14 @@
       {{ contents }}
     </p>
     <small href="#">{{ createdAt }}</small>
+
+    <template #footer>
+      <div style="text-align: right">
+        <button class="btn p-0" @click.stop="$emit('modal')">
+          <i class="bi bi-emoji-sunglasses"></i>
+        </button>
+      </div>
+    </template>
   </AppCard>
 </template>
 

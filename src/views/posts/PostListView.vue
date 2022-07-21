@@ -28,6 +28,7 @@
           :contents="post.contents"
           :createdAt="post.createdAt"
           @click="onClickPostCard(post)"
+          @modal="openModal(post)"
         />
       </div>
     </div>
@@ -38,6 +39,10 @@
       :page="params._page"
       @change="v => (params._page = v)"
     />
+
+    <Teleport to="#postModal">
+      <PostModal v-model="show" :post="modalItem"></PostModal>
+    </Teleport>
 
     <!-- <hr class="my-5" /> -->
 
@@ -55,6 +60,7 @@ import PostItem from '@/components/posts/PostItem.vue';
 import { getPosts } from '@/api/posts';
 import { ref, watchEffect } from 'vue';
 import { useRouter } from 'vue-router';
+import PostModal from '@/components/posts/PostModal.vue';
 
 const router = useRouter();
 const total = ref([]);
@@ -66,12 +72,29 @@ const params = ref({
   _page: 1,
   title_like: '',
 });
+const show = ref(false);
+const modalItem = ref(null);
 
 const fetchPosts = async () => {
   const { data, headers } = await getPosts(params.value);
   total.value = Number(headers['x-total-count'] || 0);
   posts.value = data || [];
 };
+
+const onClickPostCard = post => {
+  router.push({ name: 'PostDetail', params: { id: post.id } });
+};
+
+const openModal = post => {
+  show.value = true;
+  modalItem.value = post;
+};
+
+// const closeModal = () => {
+//   show.value = false;
+//   modalItem.value = null;
+// };
+
 // fetchPosts();
 
 /**
@@ -79,10 +102,6 @@ const fetchPosts = async () => {
  * @description func안에서 사용되는 반응형 값들이 변경되면 자동적으로 func를 재실행
  */
 watchEffect(fetchPosts);
-
-const onClickPostCard = post => {
-  router.push({ name: 'PostDetail', params: { id: post.id } });
-};
 </script>
 
 <style lang="scss" scoped></style>
