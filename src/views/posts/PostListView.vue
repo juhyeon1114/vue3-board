@@ -40,9 +40,7 @@
       @change="v => (params._page = v)"
     />
 
-    <Teleport to="#postModal">
-      <PostModal v-model="show" :post="modalItem"></PostModal>
-    </Teleport>
+    <PostModal v-model="show" :post="modalItem"></PostModal>
 
     <!-- <hr class="my-5" /> -->
 
