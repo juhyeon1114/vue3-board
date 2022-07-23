@@ -4,7 +4,7 @@
     <p class="card-text">
       {{ contents }}
     </p>
-    <small href="#">{{ createdAt }}</small>
+    <small href="#">{{ createdDate }}</small>
 
     <template #footer>
       <div style="text-align: right">
@@ -17,11 +17,17 @@
 </template>
 
 <script setup>
-defineProps({
+import { computed, inject } from 'vue';
+
+const props = defineProps({
   title: { type: String, required: true },
   contents: { type: String, required: true },
   createdAt: { type: [String, Date, Number], required: true },
 });
+const dayjs = inject('dayjs');
+const createdDate = computed(() =>
+  dayjs(props.createdAt).format('YYYY. MM. DD HH:mm:ss'),
+);
 </script>
 
 <style scoped>

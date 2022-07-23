@@ -6,7 +6,9 @@
       <div class="col-3 text-muted">내용</div>
       <div class="col-9">{{ post.contents }}</div>
       <div class="col-3 text-muted">등록일</div>
-      <div class="col-9">{{ post.createdAt }}</div>
+      <div class="col-9">
+        {{ $dayjs(post.createdAt).format('YYYY. MM. DD HH:mm:ss') }}
+      </div>
     </div>
 
     <template #actions>

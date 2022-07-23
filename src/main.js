@@ -6,6 +6,7 @@ import router from '@/router';
 import objPlugins from '@/plugins/obj';
 import funcPlugins from '@/plugins/func';
 import Person from '@/plugins/person';
+import Day from '@/plugins/day';
 import GlobalComponents from './plugins/global-components';
 import GlobalDirectives from './plugins/global-directives';
 import 'bootstrap/dist/js/bootstrap.js';
@@ -17,6 +18,7 @@ app.use(router);
 app.use(objPlugins, { hi: 'hello' });
 app.use(funcPlugins);
 app.use(Person);
+app.use(Day);
 app.mount('#app');
 
 export const app_env = import.meta.env;
