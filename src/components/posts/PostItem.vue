@@ -17,8 +17,6 @@
 </template>
 
 <script setup>
-import AppCard from '@/components/AppCard.vue';
-
 defineProps({
   title: { type: String, required: true },
   contents: { type: String, required: true },

@@ -41,18 +41,10 @@
     />
 
     <PostModal v-model="show" :post="modalItem"></PostModal>
-
-    <!-- <hr class="my-5" /> -->
-
-    <!-- <AppCard>
-      <PostDetailView :id="1"></PostDetailView>
-    </AppCard> -->
   </div>
 </template>
 
 <script setup>
-// import PostDetailView from '@/views/posts/PostDetailView.vue';
-// import AppCard from '@/components/AppCard.vue';
 import PostPagination from '@/components/PostPagination.vue';
 import PostItem from '@/components/posts/PostItem.vue';
 import { getPosts } from '@/api/posts';

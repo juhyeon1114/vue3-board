@@ -1,5 +1,5 @@
 <template>
-  <AppModal v-model="show" title="게시글">
+  <AppModal v-if="post" v-model="show" title="게시글">
     <div class="row g-3">
       <div class="col-3 text-muted">제목</div>
       <div class="col-9">{{ post.title }}</div>
@@ -22,7 +22,6 @@
 </template>
 
 <script setup>
-import AppModal from '@/components/AppModal.vue';
 import { computed } from 'vue';
 
 const props = defineProps({
