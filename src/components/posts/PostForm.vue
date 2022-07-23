@@ -3,6 +3,8 @@
     <div class="mb-3">
       <label for="title" class="form-label">제목</label>
       <input
+        v-focus
+        v-color="'blue'"
         type="text"
         class="form-control"
         :value="title"
@@ -26,6 +28,12 @@
 </template>
 
 <script setup>
+// const vFocus = {
+//   mounted: el => {
+//     el.focus();
+//   },
+// };
+
 defineProps({
   title: String,
   contents: String,

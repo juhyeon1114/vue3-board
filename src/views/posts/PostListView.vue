@@ -45,7 +45,7 @@
 </template>
 
 <script setup>
-import PostPagination from '@/components/PostPagination.vue';
+import PostPagination from '@/components/posts/PostPagination.vue';
 import PostItem from '@/components/posts/PostItem.vue';
 import { getPosts } from '@/api/posts';
 import { ref, watchEffect } from 'vue';

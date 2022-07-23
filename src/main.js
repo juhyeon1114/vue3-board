@@ -7,11 +7,12 @@ import objPlugins from '@/plugins/obj';
 import funcPlugins from '@/plugins/func';
 import Person from '@/plugins/person';
 import GlobalComponents from './plugins/global-components';
-
+import GlobalDirectives from './plugins/global-directives';
 import 'bootstrap/dist/js/bootstrap.js';
 
 const app = createApp(App);
 app.use(GlobalComponents);
+app.use(GlobalDirectives);
 app.use(router);
 app.use(objPlugins, { hi: 'hello' });
 app.use(funcPlugins);
