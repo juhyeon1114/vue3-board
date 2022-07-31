@@ -10,9 +10,17 @@ import NestedHome from '@/views/nested/NestedHome.vue';
 import NestedOne from '@/views/nested/NestedOne.vue';
 import NestedTwo from '@/views/nested/NestedTwo.vue';
 import NotFound from '@/views/NotFound.vue';
+import MyPage from '@/views/MyPage.vue';
 
 const routes = [
-  { name: 'Home', path: '/', component: HomeView },
+  {
+    name: 'Home',
+    path: '/',
+    component: HomeView,
+    beforeEnter: (to, from) => {
+      console.log('Before router enter', to, from);
+    },
+  },
   { name: 'About', path: '/about', component: AboutView },
   { name: 'PostList', path: '/posts', component: PostListView },
   { name: 'PostCreate', path: '/posts/create', component: PostCreateView },
@@ -34,12 +42,26 @@ const routes = [
       { name: 'NestedTwo', path: 'two', component: NestedTwo },
     ],
   },
+  {
+    name: 'MyPage',
+    path: '/my',
+    component: MyPage,
+    meta: { auth: true },
+  },
   { name: 'NotFound', path: '/:pathMatch(.*)*', component: NotFound },
 ];
 
 const router = createRouter({
   history: createWebHistory(),
   routes,
+});
+
+router.beforeEach((to, from) => {
+  console.log('Before each', to, from);
+
+  if (to?.meta?.auth) {
+    return '/';
+  }
 });
 
 export default router;

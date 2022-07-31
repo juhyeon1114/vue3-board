@@ -25,6 +25,9 @@
             <li class="nav-item">
               <RouterLink class="nav-link" to="/nested">Nested</RouterLink>
             </li>
+            <li class="nav-item">
+              <RouterLink class="nav-link" to="/my">My page</RouterLink>
+            </li>
           </ul>
           <form class="d-flex" role="search">
             <button
