@@ -10,10 +10,12 @@ import Day from '@/plugins/day';
 import GlobalComponents from './plugins/global-components';
 import GlobalDirectives from './plugins/global-directives';
 import 'bootstrap/dist/js/bootstrap.js';
+import { createPinia } from 'pinia';
 
 const app = createApp(App);
 app.use(GlobalComponents);
 app.use(GlobalDirectives);
+app.use(createPinia());
 app.use(router);
 app.use(objPlugins, { hi: 'hello' });
 app.use(funcPlugins);
