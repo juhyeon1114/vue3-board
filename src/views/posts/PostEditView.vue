@@ -21,15 +21,15 @@
     </PostForm>
 
     <!-- <AppAlert :show="showAlert" :message="alertMessage" :type="alertColor" /> -->
-    <AppAlerts :items="alerts" />
   </div>
 </template>
 
 <script setup>
 import PostForm from '@/components/posts/PostForm.vue';
 import { getPostById, updatePost } from '@/api/posts';
-import { reactive, ref } from 'vue';
+import { ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import { useAlert } from '@/composables/alert';
 
 const route = useRoute();
 const router = useRouter();
@@ -38,7 +38,8 @@ const id = route.params.id;
 // const showAlert = ref(false);
 // const alertMessage = ref('');
 // const alertColor = ref('');
-const alerts = reactive([]);
+
+const { turnOnAlert, turnOnSuccess } = useAlert();
 
 const fetchPost = async () => {
   post.value = {};
@@ -57,7 +58,8 @@ const goToDetail = () => {
 const onSubmitForm = async () => {
   try {
     await updatePost(id, post.value);
-    turnOnAlert(`수정 완료 ${new Date().valueOf()}`, 'success');
+    turnOnSuccess(`수정 완료 ${new Date().valueOf()}`);
+    router.push({ name: 'PostDetail', params: { id } });
   } catch (error) {
     console.error(error);
     turnOnAlert('오류');
@@ -72,13 +74,6 @@ const onSubmitForm = async () => {
 //     showAlert.value = false;
 //   }, 2000);
 // };
-
-const turnOnAlert = (message = '', type = 'error') => {
-  alerts.push({ message, type });
-  setTimeout(() => {
-    alerts.shift(); // 맨 첫번째 요소 제거
-  }, 2000);
-};
 
 fetchPost();
 </script>
