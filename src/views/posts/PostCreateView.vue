@@ -17,9 +17,9 @@
 
 <script setup>
 import PostForm from '@/components/posts/PostForm.vue';
-import { createPost } from '@/api/posts';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { useAxios } from '@/composables/useAxios';
 
 const form = ref({
   title: '',
@@ -29,14 +29,26 @@ const router = useRouter();
 
 const onSubmitForm = async () => {
   const data = { ...form.value, createdAt: Date.now() };
+  const { instance } = useAxios('/posts', { method: 'POST', data });
   try {
-    const res = await createPost(data);
+    const res = await instance;
     console.log('submit', res);
     router.push({ name: 'PostList' });
   } catch (error) {
     console.error(error);
   }
 };
+
+// const onSubmitForm = async () => {
+//   const data = { ...form.value, createdAt: Date.now() };
+//   try {
+//     const res = await createPost(data);
+//     console.log('submit', res);
+//     router.push({ name: 'PostList' });
+//   } catch (error) {
+//     console.error(error);
+//   }
+// };
 </script>
 
 <style lang="scss" scoped></style>

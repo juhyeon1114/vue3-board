@@ -1,17 +1,11 @@
 import { postsApi } from '.';
 
 export const getPosts = async params => {
-  try {
-    const res = await postsApi({
-      method: 'GET',
-      url: '/',
-      params,
-    });
-    return res;
-  } catch (error) {
-    console.error(error);
-    return [];
-  }
+  return await postsApi({
+    method: 'GET',
+    url: '/',
+    params,
+  });
 };
 
 export const getPostById = async id => {

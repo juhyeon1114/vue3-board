@@ -11,7 +11,7 @@
 import MainView from '@/layouts/MainView.vue';
 import { inject } from 'vue';
 import MainHeader from './layouts/MainHeader.vue';
-import { useAlert } from './composables/alert';
+import { useAlert } from './composables/useAlert';
 
 const person = inject('person');
 console.log('person', person);

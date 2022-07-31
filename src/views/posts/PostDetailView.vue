@@ -1,5 +1,7 @@
 <template>
-  <div v-if="post">
+  <AppLoading v-if="loading" />
+  <AppError v-else-if="error" :message="error.message" />
+  <div v-else-if="post">
     <h2>{{ post.title }}</h2>
     <p>{{ post.contents }}</p>
     <p class="text-muted">
@@ -30,9 +32,9 @@
 </template>
 
 <script setup>
-import { deletePost, getPostById } from '@/api/posts';
-import { ref } from 'vue';
+import { deletePost } from '@/api/posts';
 import { useRoute, useRouter } from 'vue-router';
+import { useAxios } from '@/composables/useAxios';
 
 const props = defineProps({
   id: { type: [String, Number] },
@@ -41,7 +43,7 @@ const props = defineProps({
 const router = useRouter();
 const route = useRoute();
 const id = route.params.id || props.id;
-const post = ref({});
+
 /**
  * ref & reactive -> Variables는 ref, 배열이나 객체는 주로 reactive로 선언
  *
@@ -54,15 +56,11 @@ const post = ref({});
  * 단) 객체 전체 할당 불가능
  */
 
-const fetchPost = async () => {
-  post.value = {};
-  try {
-    const data = await getPostById(id);
-    post.value = { ...data };
-  } catch (error) {
-    console.error(error);
-  }
-};
+const {
+  data: post,
+  error,
+  loading,
+} = useAxios(`/posts/${id}`, { method: 'get' });
 
 const goToList = () => {
   router.push({ name: 'PostList' });
@@ -81,8 +79,6 @@ const onClickDelete = async () => {
     console.error(error);
   }
 };
-
-fetchPost();
 </script>
 
 <style lang="scss" scoped></style>

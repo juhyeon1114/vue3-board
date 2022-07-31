@@ -10,7 +10,10 @@ declare module '@vue/runtime-core' {
     AppAlert: typeof import('./src/components/app/AppAlert.vue')['default']
     AppAlerts: typeof import('./src/components/app/AppAlerts.vue')['default']
     AppCard: typeof import('./src/components/app/AppCard.vue')['default']
+    AppError: typeof import('./src/components/app/AppError.vue')['default']
+    AppLoading: typeof import('./src/components/app/AppLoading.vue')['default']
     AppModal: typeof import('./src/components/app/AppModal.vue')['default']
+    copy: typeof import('./src/components/app/AppLoading copy.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }

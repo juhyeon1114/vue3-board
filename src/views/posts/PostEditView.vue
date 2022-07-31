@@ -1,5 +1,7 @@
 <template>
-  <div>
+  <AppLoading v-if="loading" />
+  <AppError v-else-if="error" :message="error.message" />
+  <div v-else>
     <h2>게시글 수정 {{ $route.params.id }}</h2>
     <hr class="my-4" />
 
@@ -16,66 +18,52 @@
         >
           취소
         </button>
-        <button type="submit" class="btn btn-primary">저장</button>
+        <button v-if="!editLoading" type="submit" class="btn btn-primary">
+          저장
+        </button>
       </template>
     </PostForm>
-
-    <!-- <AppAlert :show="showAlert" :message="alertMessage" :type="alertColor" /> -->
   </div>
 </template>
 
 <script setup>
 import PostForm from '@/components/posts/PostForm.vue';
-import { getPostById, updatePost } from '@/api/posts';
-import { ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { useAlert } from '@/composables/alert';
+import { useAlert } from '@/composables/useAlert';
+import { useAxios } from '@/composables/useAxios';
 
 const route = useRoute();
 const router = useRouter();
-const post = ref({});
 const id = route.params.id;
-// const showAlert = ref(false);
-// const alertMessage = ref('');
-// const alertColor = ref('');
+let editLoading = null;
+
+const {
+  data: post,
+  error,
+  loading,
+} = useAxios(`/posts/${id}`, { method: 'get' });
 
 const { turnOnAlert, turnOnSuccess } = useAlert();
-
-const fetchPost = async () => {
-  post.value = {};
-  try {
-    const data = await getPostById(id);
-    post.value = { ...data };
-  } catch (error) {
-    console.error(error);
-  }
-};
 
 const goToDetail = () => {
   router.push({ name: 'PostDetail', params: { id: route.params.id } });
 };
 
 const onSubmitForm = async () => {
+  const { instance, loading } = useAxios(`/posts/${id}`, {
+    method: 'PUT',
+    data: post.value,
+  });
+  editLoading = loading;
   try {
-    await updatePost(id, post.value);
+    await instance;
     turnOnSuccess(`수정 완료 ${new Date().valueOf()}`);
     router.push({ name: 'PostDetail', params: { id } });
   } catch (error) {
-    console.error(error);
     turnOnAlert('오류');
+    console.error(error);
   }
 };
-
-// const turnOnAlert = (message = '', color = 'error') => {
-//   showAlert.value = true;
-//   alertMessage.value = message;
-//   alertColor.value = color;
-//   setTimeout(() => {
-//     showAlert.value = false;
-//   }, 2000);
-// };
-
-fetchPost();
 </script>
 
 <style lang="scss" scoped></style>
